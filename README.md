@@ -37,68 +37,55 @@ Open the index.html file in any modern web browser (Chrome, Firefox, Edge, etc.)
 
 3. **Play!**
 Select difficulty → Enter numbers → Use Check, Solve, or Reset as needed.
+
+---
+📁 Project Structure
+├── task3.html         # Main HTML file (self-contained)
+├── README.md          # Documentation file (this file)
+```
+
 ---
 
-## 📁 Project Structure
+## 🛠 Built With
 
-├── index.html     # Main HTML file (self-contained)
-├── README.md      # Documentation file (this file)
-📌 Upcoming Features
-🌗 Dark mode toggle
+- **HTML5**
+- **CSS3**
+- **Vanilla JavaScript**
 
-✏️ Pencil notes for possible values
+---
 
-💡 Hint button for next logical move
+## 🙌 Contributing
 
-🔊 Sound effects for interactions
-
-📱 Mobile responsive design
-
-🛠 Built With
-HTML5
-
-CSS3
-
-Vanilla JavaScript
-
-🙌 Contributing
 Contributions, suggestions, and feature requests are welcome!
 
-Fork the repo
+### How to Contribute
 
-Create your feature branch (git checkout -b feature/YourFeature)
+1. Fork the repository  
+2. Create your feature branch  
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Commit your changes  
+   ```bash
+   git commit -m 'Add YourFeature'
+   ```
+4. Push to the branch  
+   ```bash
+   git push origin feature/YourFeature
+   ```
+5. Open a **Pull Request**
 
-Commit your changes (git commit -m 'Add YourFeature')
-
-Push to the branch (git push origin feature/YourFeature)
-
-Open a Pull Request
-
-📜 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-👩‍💻 Author
-Meera Krishna
-
-“Learning every day, building with intent, and testing with purpose.”
+---
 
 
-🔗 Live Demo
-You can deploy this easily using:
+## 👩‍💻 Author
 
-GitHub Pages
+**Meera Krishna**  
+_“⚙️ Debugging life one commit at a time — architecting logic, styling with sass, and deploying dreams.”_
 
-Netlify
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?logo=linkedin&style=flat-square)](https://www.linkedin.com/in/meera-krishna)
 
-Vercel
-
-Want help with deployment? Just ask!
-
-vbnet
-Copy
-Edit
-
-Let me know if you want a version with emojis removed or GitHub badges added.
+---
 
 
 
@@ -106,6 +93,4 @@ Let me know if you want a version with emojis removed or GitHub badges added.
 
 
 
-
-Ask ChatGPT
 
