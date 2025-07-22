@@ -40,6 +40,7 @@ Select difficulty → Enter numbers → Use Check, Solve, or Reset as needed.
 
 ---
 📁 Project Structure
+```
 ├── task3.html         # Main HTML file (self-contained)
 ├── README.md          # Documentation file (this file)
 ```
