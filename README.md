@@ -1,5 +1,5 @@
 # SCT_SD_03
-A web-based Sudoku solver that takes an input puzzle grid and fills in the missing numbers using an algorithm, built for Task 03 of the SkillCraft Technology Internship.
+A web-based Sudoku solver that takes an input puzzle grid and fills in the missing numbers using an algorithm, built for Task 03 of the SkillCraft Technology Internship,
 # 🧠 Sudoku Solver Game
 
 A web-based interactive Sudoku game and solver built using **HTML**, **CSS**, and **Vanilla JavaScript**. It allows players to generate puzzles at different difficulty levels, solve the board automatically, check correctness, and interact with a neatly styled UI.
