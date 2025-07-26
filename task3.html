@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sudoku Solver Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #4a6f4c;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 10px 0;
+      color: #cad5aa;
+    }
+
+    .sudoku-board {
+      display: grid;
+      grid-template-columns: repeat(9, 40px);
+      grid-template-rows: repeat(9, 40px);
+      gap: 0;
+      border: 2px solid #4fc3f7;
+    }
+
+    .cell {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      font-size: 18px;
+      border: 1px solid #444;
+      background-color: #1e1e1e;
+      color: #fff;
+      box-sizing: border-box;
+    }
+
+    .cell:focus {
+      outline: 2px solid #4fc3f7;
+    }
+
+    .invalid {
+      background-color: #ff4f4f !important;
+    }
+
+    .valid {
+      background-color: #2e7d32 !important;
+    }
+
+    .controls {
+      margin-top: 15px;
+    }
+
+    .controls button, select {
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background-color: #cad5aa;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .controls button:hover {
+      background-color: #81d4fa;
+    }
+
+    /* Thicker border styles for 3x3 separation */
+    .top-border {
+      border-top: 3px solid hsl(180, 33%, 99%);
+    }
+
+    .left-border {
+      border-left: 3px solid #e5e7e8;
+    }
+
+    .right-border {
+      border-right: 3px solid #e7e8e8;
+    }
+
+    .bottom-border {
+      border-bottom: 3px solid #ecf0f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Sudoku Solver</h1>
+  <div class="sudoku-board" id="board"></div>
+
+  <div class="controls">
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+    <button onclick="generateSudoku()">Generate</button>
+    <button onclick="solveSudoku()">Solve</button>
+    <button onclick="resetBoard()">Reset</button>
+    <button onclick="checkBoard()">Check</button>
+  </div>
+
+  <script>
+    const board = document.getElementById('board');
+    let solutionBoard = [];
+
+    function createBoard() {
+      board.innerHTML = '';
+      for (let i = 0; i < 81; i++) {
+        const input = document.createElement('input');
+        input.classList.add('cell');
+        input.setAttribute('type', 'text');
+        input.setAttribute('maxlength', '1');
+        input.dataset.index = i;
+
+        const row = Math.floor(i / 9);
+        const col = i % 9;
+
+        // Add borders for 3x3 separation
+        if (row % 3 === 0) input.classList.add('top-border');
+        if (col % 3 === 0) input.classList.add('left-border');
+        if (col === 8) input.classList.add('right-border');
+        if (row === 8) input.classList.add('bottom-border');
+
+        input.addEventListener('input', () => {
+          input.value = input.value.replace(/[^1-9]/g, '');
+        });
+        board.appendChild(input);
+      }
+    }
+
+    function getBoardArray() {
+      const cells = document.querySelectorAll('.cell');
+      return Array.from(cells).map(cell => +cell.value || 0);
+    }
+
+    function setBoardArray(arr) {
+      const cells = document.querySelectorAll('.cell');
+      cells.forEach((cell, idx) => {
+        cell.classList.remove('invalid', 'valid');
+        cell.value = arr[idx] === 0 ? '' : arr[idx];
+      });
+    }
+
+    function isValidMove(board, row, col, num, idx) {
+      for (let i = 0; i < 9; i++) {
+        if ((i !== col && board[row * 9 + i] === num) || 
+            (i !== row && board[i * 9 + col] === num)) {
+          return false;
+        }
+
+        const boxRow = Math.floor(row / 3) * 3 + Math.floor(i / 3);
+        const boxCol = Math.floor(col / 3) * 3 + i % 3;
+        const boxIdx = boxRow * 9 + boxCol;
+        if (boxIdx !== idx && board[boxIdx] === num) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function solve(board) {
+      for (let i = 0; i < 81; i++) {
+        if (board[i] === 0) {
+          for (let num = 1; num <= 9; num++) {
+            if (isValidMove(board, Math.floor(i / 9), i % 9, num, i)) {
+              board[i] = num;
+              if (solve(board)) return true;
+              board[i] = 0;
+            }
+          }
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function solveSudoku() {
+      const boardArr = getBoardArray();
+      const solved = [...boardArr];
+      if (solve(solved)) {
+        setBoardArray(solved);
+        alert("Sudoku Solved!");
+      } else {
+        alert("No solution exists.");
+      }
+    }
+
+    function resetBoard() {
+      document.querySelectorAll('.cell').forEach(cell => {
+        cell.value = '';
+        cell.classList.remove('invalid', 'valid');
+      });
+    }
+
+    function generateSudoku() {
+      resetBoard();
+      let difficulty = document.getElementById('difficulty').value;
+      let prefilled = difficulty === 'easy' ? 40 : difficulty === 'medium' ? 30 : 22;
+
+      let fullBoard = Array(81).fill(0);
+      solve(fullBoard); // fill with complete solution
+      solutionBoard = [...fullBoard];
+
+      let puzzle = [...solutionBoard];
+      for (let i = 0; i < 81 - prefilled; i++) {
+        let idx = Math.floor(Math.random() * 81);
+        while (puzzle[idx] === 0) idx = Math.floor(Math.random() * 81);
+        puzzle[idx] = 0;
+      }
+      setBoardArray(puzzle);
+    }
+
+    function checkBoard() {
+      const boardArr = getBoardArray();
+      const cells = document.querySelectorAll('.cell');
+      let correct = 0;
+      let totalFilled = 0;
+
+      cells.forEach((cell, idx) => {
+        const userVal = +cell.value;
+        if (userVal !== 0) {
+          totalFilled++;
+          if (userVal === solutionBoard[idx]) {
+            cell.classList.remove('invalid');
+            cell.classList.add('valid');
+            correct++;
+          } else {
+            cell.classList.remove('valid');
+            cell.classList.add('invalid');
+          }
+        } else {
+          cell.classList.remove('invalid', 'valid');
+        }
+      });
+
+      if (totalFilled === 0) {
+        alert("Enter some numbers first!");
+      } else if (correct === totalFilled) {
+        alert("✅ All filled numbers are correct!");
+      } else {
+        alert(`❌ ${totalFilled - correct} incorrect number(s).`);
+      }
+    }
+
+    createBoard();
+  </script>
+</body>
+</html>
